@@ -43,7 +43,7 @@ class PagoController extends Controller
         $pago->save();
 
         return response()->json([
-            "message" => "pago creado correctamente"], 201);
+            "mensaje" => "pago creado correctamente"], 201);
     }
 
     /**
@@ -103,17 +103,9 @@ class PagoController extends Controller
      * @param  \App\Pago  $pago
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pago $idpago)
+    public function destroy(Pago $pago)
     {
-        if(Pago::where('idpagos', $idpago)->exists()) {
-            $pago = Pago::find($idpago);
-            $pago->delete();
-        return response()->json([
-            "message" => "pago borrado"], 202);
-        } else {
-          return response()->json([
-            "message" => "Pago no ecnontrado"
-          ], 404);
-        }
-    }
+        $pago->delete();
+        return response()->json(["mensaje" => "Pago #$pago->idpagos eliminado", ]);
+}
 }

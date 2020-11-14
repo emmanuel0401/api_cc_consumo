@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePetitionsTable extends Migration
+class CreateSolicitudesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreatePetitionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('petitions', function (Blueprint $table) {
-            $table->increments('idsolicitud');
-            $table->timestamps('');
-            $table->string('Solicitante');
-            $table->string('Propietario');
+        Schema::create('solicitudes', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('solicitante');
+            $table->string('propietario');
             $table->string('datosRegistrales');
             $table->string('region');
             $table->string('mz');
             $table->string('lt');
+            $table->timestamps();
         });
     }
 
@@ -32,6 +32,6 @@ class CreatePetitionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('petitions');
+        Schema::dropIfExists('solicitudes');
     }
 }

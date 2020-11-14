@@ -18,8 +18,18 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 Route::apiresource('property_deed', 'PropertyDeedController');
-
 Route::apiresource('escrituras', 'EscrituraController');
-Route::apiresource('petitions', 'PetitionController');
+Route::apiresource('solicitudes', 'SolicitudController');
 Route::apiresource('solicitantes', 'SolicitanteController');
 Route::apiresource('pagos', 'PagoController');
+
+
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'LoginController@login');
+    Route::post('signup', 'LoginController@signup');
+  
+    Route::group(['middleware' => 'auth:api'], function() {
+        Route::get('logout', 'LoginController@logout');
+        Route::get('user', 'LoginController@user');
+    });
+});

@@ -46,7 +46,7 @@ class SolicitanteController extends Controller
         $solicitante->save();
 
         return response()->json([
-            "message" => "solicitante registrado correctamente"
+            "mensaje" => "solicitante registrado correctamente"
         ], 201);
     }
 
@@ -80,19 +80,23 @@ class SolicitanteController extends Controller
      * @param  \App\Solicitante  $solicitante
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Solicitante $id)
+    public function update(Request $request, $id)
     {
-        $solicitante =Solicitante::findOrFail($request->id);
-        $solicitante->curp = $request->curp;
-        $solicitante->nombre = $request->nombre;
-        $solicitante->apellidopat =$request->apellidopat;
-        $solicitante->apellidomat =$request->apellidomat;
-        $solicitante->RFC =$request->RFC;
-        $solicitante->Correoe =$request->Correoe;
-        $solicitante->save();
-        
-        return $solicitante;
-    }
+        if (Solicitante::where('id', $id)->exists()) {
+            $solicitante = Solicitante::find($id);
+            $solicitante->curp = is_null($request->curp) ? $solicitante->curp : $request->curp;
+            $solicitante->nombre = is_null($request->nombre) ? $solicitante->nonbre : $request->nombre;
+            $solicitante->apellidopat = is_null($request->apellidopat) ? $solicitante->apellidopat : $request->apellidopat;
+            $solicitante->apellidomat = is_null($request->apellidomat) ? $solicitante->apellidomat : $request->apellidomat;
+            $solicitante->RFC = is_null($request->RFC) ? $solicitante->RFC : $request->RFC;
+            $solicitante->Correoe = is_null($request->Correoe) ? $solicitante->Correoe : $request->Correoe;
+            $solicitante->save();
+    
+            return response()->json(["mensaje" => "datos actualizados correctamente" ], 200);
+            } else {
+            return response()->json(["mensaje" => "Solicitante no encontrado"], 404);
+                    }
+            }
 
     /**
      * Remove the specified resource from storage.
@@ -103,6 +107,6 @@ class SolicitanteController extends Controller
     public function destroy(Solicitante $solicitante)
     {
         $solicitante->delete();
-        return $solicitante;
+        return response()->json(["mensaje" => "Solicitante #$solicitante->id eliminado", ]);
     }
 }
